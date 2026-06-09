@@ -498,41 +498,42 @@ function roundRect(ctx,x,y,w,h,r){
 function drawLongitudinalFinal(ctx, c, p, w, h){
   ctx.clearRect(0,0,w,h);
 
-  // Background
   const bg=ctx.createLinearGradient(0,0,w,h);
   bg.addColorStop(0,"#020817");
-  bg.addColorStop(1,"#06142c");
+  bg.addColorStop(1,"#06152e");
   ctx.fillStyle=bg;
   ctx.fillRect(0,0,w,h);
 
-  // Grid background
-  ctx.strokeStyle="rgba(148,163,184,.105)";
+  // Subtle grid
+  ctx.strokeStyle="rgba(148,163,184,.10)";
   ctx.lineWidth=1;
   for(let x=0;x<w;x+=78){
     ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke();
   }
-  for(let y=0;y<h;y+=50){
+  for(let y=0;y<h;y+=52){
     ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
   }
 
   const eqX = w * 0.555;
-  const xMin = 174;
-  const xMax = w - 78;
+  const xMin = Math.max(160, w * 0.16);
+  const xMax = w - 76;
 
-  // v5.64: large, full-height particle field.
-  // More rows + larger particles make the graph dominate the mobile screen.
-  const rows = 15;
-  const rowGap = 21;
-  const particleRadius = 8.9;
+  // v5.65: large particles + many rows, using most of the graph height.
+  const rows = 18;
+  const rowGap = Math.max(17, Math.min(22, h * 0.034));
+  const particleRadius = Math.max(8.6, Math.min(10.8, h * 0.017));
   const bandHeight = (rows - 1) * rowGap;
-  const y0 = Math.max(108, Math.min(h - bandHeight - 46, h * 0.27));
-  const yCenter = y0 + bandHeight * 0.5;
-  const axisY = y0 + bandHeight + 22;
 
-  const speakerX = 78;
+  // Move wave labels near the particle field and use the vertical space better.
+  const topFree = Math.max(74, h * 0.16);
+  const y0 = Math.max(topFree + 54, Math.min(h - bandHeight - 58, h * 0.265));
+  const yCenter = y0 + bandHeight * 0.5;
+  const axisY = y0 + bandHeight + 20;
+
+  const speakerX = Math.max(70, xMin - 88);
   const speakerY = yCenter;
-  const currentAmpPx = 17.0 * p.A;
-  const baseGap = 38;
+  const currentAmpPx = 17.5 * p.A;
+  const baseGap = Math.max(32, Math.min(40, w * 0.032));
   const k = 2 * Math.PI / 270;
   const phase = vizState.t * 0.105 * p.speed;
   const obsRow = Math.floor(rows/2);
@@ -540,29 +541,35 @@ function drawLongitudinalFinal(ctx, c, p, w, h){
   let obsX = obsBaseX;
   let obsY = y0 + obsRow * rowGap;
 
-  // Polished speaker source on the left
-  drawSpeaker(ctx, speakerX, speakerY, 1.08);
+  // Speaker source on the left
+  drawSpeaker(ctx, speakerX, speakerY, 1.22);
 
-  // Compression / rarefaction luminous bands
-  const bandCenters=[xMin+52,xMin+230,xMin+424,xMin+612,xMin+790];
+  // Compression/rarefaction glow bands
+  const bandCenters=[
+    xMin+50,
+    xMin+220,
+    xMin+410,
+    xMin+600,
+    xMin+785
+  ];
   bandCenters.forEach((bx,i)=>{
-    const g=ctx.createLinearGradient(bx-54,0,bx+54,0);
-    const col=i%2===0?"rgba(34,211,238,.15)":"rgba(168,85,247,.14)";
+    const g=ctx.createLinearGradient(bx-62,0,bx+62,0);
+    const col=i%2===0?"rgba(34,211,238,.16)":"rgba(168,85,247,.15)";
     g.addColorStop(0,"rgba(0,0,0,0)");
     g.addColorStop(.5,col);
     g.addColorStop(1,"rgba(0,0,0,0)");
     ctx.fillStyle=g;
-    ctx.fillRect(bx-62,Math.max(58,y0-26),124,bandHeight+58);
+    ctx.fillRect(bx-68,Math.max(48,y0-30),136,bandHeight+62);
   });
 
-  // Small graph title
+  // Canvas title
   ctx.fillStyle="#cfe9ff";
   ctx.font="20px Sarabun, system-ui, sans-serif";
   ctx.textAlign="left";
   ctx.fillText("Longitudinal Wave (คลื่นตามยาว)", 24, 34);
 
-  // Wave direction arrow close to the particle field
-  const arrowY = Math.max(70, y0 - 50);
+  // Wave direction arrow: close to particles to reduce upper empty space.
+  const arrowY = Math.max(68, y0 - 42);
   ctx.save();
   ctx.strokeStyle="rgba(34,211,238,.96)";
   ctx.fillStyle="rgba(34,211,238,.96)";
@@ -579,13 +586,13 @@ function drawLongitudinalFinal(ctx, c, p, w, h){
   ctx.fill();
   ctx.font="bold 18px Sarabun, system-ui, sans-serif";
   ctx.textAlign="center";
-  ctx.fillText("ทิศทางการเคลื่อนที่ของคลื่น", w*0.57, arrowY-18);
+  ctx.fillText("ทิศทางการเคลื่อนที่ของคลื่น", w*0.57, arrowY-16);
   ctx.restore();
 
-  // Equilibrium marker aligned with red particle
-  const eqLabelY = y0 - 16;
+  // Equilibrium marker
+  const eqLabelY = y0 - 12;
   ctx.save();
-  ctx.strokeStyle="rgba(255,255,255,.78)";
+  ctx.strokeStyle="rgba(255,255,255,.80)";
   ctx.setLineDash([8,8]);
   ctx.lineWidth=2;
   ctx.beginPath();
@@ -599,7 +606,7 @@ function drawLongitudinalFinal(ctx, c, p, w, h){
   ctx.fillText("ตำแหน่งสมดุล", eqX, eqLabelY);
   ctx.restore();
 
-  // x-axis close to the particle field
+  // x-axis
   ctx.save();
   ctx.strokeStyle="rgba(255,245,220,.94)";
   ctx.fillStyle="rgba(255,255,255,.94)";
@@ -626,8 +633,7 @@ function drawLongitudinalFinal(ctx, c, p, w, h){
   ctx.fillText("x", w-36, axisY+31);
   ctx.restore();
 
-  // Longitudinal particle field:
-  // particle displacement is along x only, so this remains physically correct.
+  // Particle grid: longitudinal displacement only along x.
   const baseXs=[];
   for(let x=xMin;x<=xMax;x+=baseGap) baseXs.push(x);
   if(!baseXs.some(v => Math.abs(v - eqX) < 0.5)) baseXs.push(eqX);
@@ -650,9 +656,8 @@ function drawLongitudinalFinal(ctx, c, p, w, h){
     }
   }
 
-  // Red observation particle drawn last
   ctx.save();
-  const obsRadius = particleRadius + 1.7;
+  const obsRadius = particleRadius + 1.9;
   drawParticleShadow(ctx,obsX,obsY,obsRadius);
   drawParticleSphere(ctx,obsX,obsY,obsRadius,"red");
   ctx.restore();
@@ -1079,11 +1084,21 @@ function resizeVisualizerCanvas(){
   if(!container) return;
 
   const rect = container.getBoundingClientRect();
-  let cssW = Math.max(280, Math.floor(rect.width - 4));
+  const cssW = Math.max(280, Math.floor(rect.width - 4));
   const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+  const isLongitudinal = document.body?.classList?.contains("longitudinalFocusPage") ||
+    document.querySelector(".visualizerSinglePage[data-viz-mode='longitudinal']");
 
-  let cssH = isLandscape ? Math.round(cssW * 0.42) : Math.round(cssW * 0.63);
-  cssH = Math.max(isLandscape ? 210 : 390, Math.min(cssH, isLandscape ? 310 : 520));
+  let cssH;
+  if(isLongitudinal){
+    // v5.65: graph must dominate the mobile screen.
+    // Portrait uses a much taller canvas; landscape still keeps enough graph height.
+    cssH = isLandscape ? Math.round(cssW * 0.52) : Math.round(cssW * 0.78);
+    cssH = Math.max(isLandscape ? 260 : 460, Math.min(cssH, isLandscape ? 360 : 620));
+  }else{
+    cssH = isLandscape ? Math.round(cssW * 0.42) : Math.round(cssW * 0.54);
+    cssH = Math.max(isLandscape ? 180 : 220, Math.min(cssH, isLandscape ? 235 : 320));
+  }
 
   const dpr = Math.max(1, window.devicePixelRatio || 1);
 
@@ -1092,6 +1107,5 @@ function resizeVisualizerCanvas(){
   canvas.width = Math.floor(cssW * dpr);
   canvas.height = Math.floor(cssH * dpr);
 }
-
 
 window.addEventListener("load", ()=>{ if(typeof resizeVisualizerCanvas === "function") resizeVisualizerCanvas(); });

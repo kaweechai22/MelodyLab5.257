@@ -2247,3 +2247,81 @@ main.wrap{
     height:40px !important;
   }
 }
+
+
+/* v5.65 REAL FIX: graph dominates mobile display */
+.longitudinalFocusPage .vizMediaFrame canvas{
+  aspect-ratio:auto !important;
+  min-height:500px !important;
+}
+.longitudinalFocusPage .embeddedPlayerBar{
+  margin-top:3px !important;
+  min-height:52px !important;
+  padding:4px 10px 6px !important;
+}
+.longitudinalFocusPage .embeddedPlayerBar .playerCenterOnly{
+  gap:18px !important;
+}
+.longitudinalFocusPage .embeddedPlayerBar .playerBtn,
+.longitudinalFocusPage .embeddedPlayerBar .playerPrimary{
+  width:48px !important;
+  height:48px !important;
+  transform:none !important;
+}
+.longitudinalFocusPage .neonControlViz{
+  padding:12px 10px !important;
+}
+.longitudinalFocusPage .neonControlViz .panelTitleStack h3{
+  font-size:1rem !important;
+}
+.longitudinalFocusPage .panelSubtext{
+  display:none !important;
+}
+.longitudinalFocusPage .neonParamRow{
+  padding:5px 0 !important;
+  gap:4px 6px !important;
+  grid-template-columns:28px 1fr 52px !important;
+  grid-template-areas:"icon text value" ". slider slider" !important;
+}
+.longitudinalFocusPage .paramIcon{
+  width:26px !important;
+  height:26px !important;
+  font-size:.78rem !important;
+}
+.longitudinalFocusPage .paramText label{
+  font-size:.68rem !important;
+}
+.longitudinalFocusPage .paramText small{
+  font-size:.56rem !important;
+}
+.longitudinalFocusPage .neonParamRow .valueBadge{
+  min-width:50px !important;
+  font-size:.66rem !important;
+  padding:3px 5px !important;
+}
+
+@media(max-width:760px){
+  .longitudinalFocusPage .vizMediaFrame canvas{
+    min-height:480px !important;
+  }
+  .longitudinalFocusPage .embeddedPlayerBar .playerBtn,
+  .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{
+    width:46px !important;
+    height:46px !important;
+  }
+}
+
+@media(max-width:950px) and (orientation:landscape){
+  .longitudinalFocusPage .longitudinalFocusGrid{
+    grid-template-columns:minmax(0,2.7fr) minmax(130px,.35fr) !important;
+    gap:10px !important;
+  }
+  .longitudinalFocusPage .vizMediaFrame canvas{
+    min-height:300px !important;
+  }
+  .longitudinalFocusPage .embeddedPlayerBar .playerBtn,
+  .longitudinalFocusPage .embeddedPlayerBar .playerPrimary{
+    width:40px !important;
+    height:40px !important;
+  }
+}
