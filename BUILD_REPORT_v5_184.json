@@ -1,0 +1,13 @@
+{
+  "base": "v5.183 from v5.167",
+  "new_version": "v5.184",
+  "changes": [
+    "rename Sound minimum θ1 to มุมต่ำสุดแรก θ₁",
+    "add incident wavefront mode curved/plane",
+    "keep purple I/I0 bars",
+    "change diffracted wavefront color to cyan-green",
+    "add incident_wavefront export field"
+  ],
+  "duplicate_ids": [],
+  "missing_refs": 0
+}
