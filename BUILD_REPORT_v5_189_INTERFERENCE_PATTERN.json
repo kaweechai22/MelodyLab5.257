@@ -1,0 +1,10 @@
+{
+  "version": "v5.189",
+  "base": "v5.188",
+  "changes": [
+    "Added interference pattern toggle",
+    "Visual highlight for constructive/destructive regions in field",
+    "Export includes show_pattern"
+  ],
+  "physics": "Pattern overlay uses relativeIntensity() with metric path difference via pxPerM scaling"
+}

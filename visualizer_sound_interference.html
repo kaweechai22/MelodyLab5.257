@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MelodyLab v5.188 - Sound Interference (การแทรกสอดของเสียง)</title>
+  <title>MelodyLab v5.190 - Sound Interference (การแทรกสอดของเสียง)</title>
   <meta name="description" content="MelodyLab ห้องทดลองเสียงและเก็บข้อมูล ด้วยมือถือ">
   <meta name="theme-color" content="#0f172a">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="style.css">
-  <meta name="melodylab-build-version" content="v5.188-base167-double-slit-interference-physics-audit">
+  <meta name="melodylab-build-version" content="v5.190-double-slit-interference-pattern-tuned">
   <style>
     .interferenceReadoutBar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px}
     .interferenceReadoutBar>div{border:1px solid rgba(148,163,184,.18);background:rgba(15,23,42,.48);border-radius:14px;padding:9px 11px;min-height:56px}
@@ -32,8 +32,9 @@
     .ampRow .paramIcon{background:linear-gradient(135deg,#22c55e,#86efac)}
     .timeRow .paramIcon{background:linear-gradient(135deg,#a855f7,#c084fc)}
     .guideRow .paramIcon{background:linear-gradient(135deg,#64748b,#94a3b8)}
-    .guideRow .valueBadge{min-width:44px;text-align:center;border-color:rgba(148,163,184,.28)}
-    .explainDetails summary{font-size:1.05rem}
+    .patternRow .paramIcon{background:linear-gradient(135deg,#22c55e,#ec4899)}
+    .guideRow .valueBadge,.patternRow .valueBadge{min-width:44px;text-align:center;border-color:rgba(148,163,184,.28)}
+        .explainDetails summary{font-size:1.05rem}
     .templateInsightCard li{line-height:1.55}
     @media(max-width:760px){
       .interferenceReadoutBar{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
@@ -78,7 +79,7 @@
         <div><label>Phase difference Δφ</label><b id="intPhaseLabel">--</b></div>
         <div><label>Center condition</label><b id="intCenterLabel">--</b></div>
       </div>
-      <p class="compactInterferenceNote">แท่งสีม่วงที่แนวผู้ฟังแสดงโปรไฟล์ความเข้มเสียงสัมพัทธ์ I/I₀ จากการแทรกสอดของคลื่นเสียงที่ออกจากช่องแคบทั้งสอง</p>
+      <p class="compactInterferenceNote">แท่งสีม่วงที่แนวผู้ฟังแสดงโปรไฟล์ความเข้มเสียงสัมพัทธ์ I/I₀ จากการแทรกสอดของคลื่นเสียงที่ออกจากช่องแคบทั้งสอง และสามารถเปิดโหมดแสดงบริเวณเสริมกัน–หักล้างกันในสนามคลื่นแบบจางเพื่อช่วยอธิบายได้</p>
       <details class="explainDetails">
         <summary>สาระสำคัญที่ควรสังเกต</summary>
         <div class="detailsBody"><div class="templateUnderCanvas explainGrid">
@@ -93,6 +94,8 @@
             <div class="legendRow"><span class="legendDot cyan"></span><span>หน้าคลื่นตกกระทบจากลำโพง</span></div>
             <div class="legendRow"><span class="legendDot green"></span><span>หน้าคลื่นจากช่องแคบคู่ (S₁, S₂)</span></div>
             <div class="legendRow"><span class="legendDot violet"></span><span>โปรไฟล์ความเข้มเสียงสัมพัทธ์ I/I₀</span></div>
+            <div class="legendRow"><span class="legendDot green"></span><span>บริเวณเสริมกัน (ความเข้มเสียงสูง)</span></div>
+            <div class="legendRow"><span class="legendDot pink"></span><span>บริเวณหักล้างกัน (ความเข้มเสียงต่ำ)</span></div>
             <div class="legendRow"><span class="legendMark">d</span><span>ระยะห่างระหว่างช่องแคบคู่</span></div>
           </div>
           <div class="templateInsightCard"><div class="insightTitle">ข้อจำกัดของแบบจำลอง</div><ul>
@@ -112,6 +115,7 @@
       <div class="field richField neonParamRow phaseRow"><div class="paramIcon">Δφ</div><div class="paramText"><label>ความต่างเฟส Δφ</label><small>ใช้เลื่อนตำแหน่งบริเวณเสริมและหักล้าง</small></div><input id="vizPhaseDiff" type="range" min="0" max="180" step="5" value="0"><div class="paramValueWrap"><span id="vizPhaseDiffLabel" class="valueBadge">--</span></div></div>
       <div class="field richField neonParamRow ampRow"><div class="paramIcon">A</div><div class="paramText"><label>แอมพลิจูด A</label><small>ปรับความเด่นของภาพเท่านั้น</small></div><input id="vizAmp" type="range" min="0.20" max="1.00" step="0.05" value="0.75"><div class="paramValueWrap"><span id="vizAmpLabel" class="valueBadge">--</span></div></div>
       <div class="field richField neonParamRow timeRow"><div class="paramIcon">◷</div><div class="paramText"><label>ความเร็วแอนิเมชัน</label><small>ปรับความเร็วของภาพเคลื่อนไหว</small></div><input id="vizTimeSpeed" type="range" min="0.2" max="2.0" step="0.1" value="1.0"><div class="paramValueWrap"><span id="vizTimeLabel" class="valueBadge">--</span></div></div>
+      <div class="field richField neonParamRow patternRow"><div class="paramIcon">P</div><div class="paramText"><label>รูปแบบเสริม–หักล้าง</label><small>เปิดเพื่อเน้นบริเวณเสริมกันและหักล้างกันในสนามคลื่น</small></div><div class="guideControl"><label class="guideSwitch"><input id="vizShowPattern" type="checkbox"><span class="guideSlider"></span></label><span id="vizPatternLabel" class="valueBadge">ปิด</span></div></div>
       <div class="field richField neonParamRow guideRow"><div class="paramIcon">G</div><div class="paramText"><label>เส้นช่วยอธิบาย Δr</label><small>เปิดเพื่อดูเส้นจากช่องแคบทั้งสองไปยังจุดตัวอย่างบนแนวผู้ฟัง</small></div><div class="guideControl"><label class="guideSwitch"><input id="vizShowGuides" type="checkbox"><span class="guideSlider"></span></label><span id="vizGuideLabel" class="valueBadge">ปิด</span></div></div>
     </div>
   </div>
@@ -136,7 +140,7 @@ function params(){
   let center='เสริมกันกลาง';
   if(centerI<.25) center='หักล้างกันกลาง';
   else if(centerI<.75) center='กึ่งเสริมกลาง';
-  return{d,f,T,phaseDeg,phase,A,timeSpeed,v,lambda,ratio,centerI,center,showGuides:!!$('vizShowGuides')?.checked};
+  return{d,f,T,phaseDeg,phase,A,timeSpeed,v,lambda,ratio,centerI,center,showPattern:!!$('vizShowPattern')?.checked,showGuides:!!$('vizShowGuides')?.checked};
 }
 function setText(id,text){const el=$(id);if(el)el.textContent=text;}
 function labels(p){
@@ -151,6 +155,7 @@ function labels(p){
   setText('intRatioLabel',fmt(p.ratio,2));
   setText('intPhaseLabel',`${Math.round(p.phaseDeg)}°`);
   setText('intCenterLabel',p.center);
+  setText('vizPatternLabel',p.showPattern?'เปิด':'ปิด');
   setText('vizGuideLabel',p.showGuides?'เปิด':'ปิด');
 }
 function prep(canvas){
@@ -177,6 +182,7 @@ function draw(){
   secondarySources(ctx,slit1,slit2,p);
   outgoing(ctx,slit1,spacing,phase,p,w,h,'rgba(45,212,191,');
   outgoing(ctx,slit2,spacing,phase,p,w,h,'rgba(110,231,183,');
+  if(p.showPattern) interferencePattern(ctx,wallX,screenX,top,bottom,slit1,slit2,p,pxPerM);
   axis(ctx,cy,w);
   if(p.showGuides) guides(ctx,slit1,slit2,screenX,cy,h,p,pxPerM);
   receiver(ctx,screenX,top,bottom,slit1,slit2,p,pxPerM);
@@ -235,6 +241,31 @@ function outgoing(ctx,s,spacing,phase,p,w,h,colorPrefix){
   for(let r=phase+spacing*.55;r<maxR;r+=spacing){const fade=clamp(1-r/(maxR*1.03),.08,1);ctx.strokeStyle=`${colorPrefix}${base*fade})`;ctx.beginPath();ctx.arc(s.x,s.y,r,-1.00,1.00);ctx.stroke();}
   ctx.restore();
 }
+
+function interferencePattern(ctx,wallX,screenX,top,bottom,s1,s2,p,pxPerM){
+  ctx.save();
+  const startX=wallX+40,endX=screenX-26;
+  for(let x=startX;x<=endX;x+=24){
+    for(let y=top+14;y<=bottom-14;y+=24){
+      const I=relativeIntensity(x,y,s1,s2,p,pxPerM);
+      if(I>=0.90){
+        const alpha=(I-.90)/.10*.10+.035;
+        ctx.fillStyle=`rgba(34,197,94,${alpha.toFixed(3)})`;
+        ctx.beginPath();ctx.arc(x,y,3.8,0,Math.PI*2);ctx.fill();
+      }else if(I<=0.10){
+        const alpha=(.10-I)/.10*.10+.03;
+        ctx.fillStyle=`rgba(236,72,153,${alpha.toFixed(3)})`;
+        ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();
+      }
+    }
+  }
+  ctx.fillStyle='rgba(15,23,42,.56)';
+  rr(ctx,screenX-132,top+6,112,34,12,true,false);
+  ctx.fillStyle='rgba(34,197,94,.88)';ctx.beginPath();ctx.arc(screenX-118,top+17,4.2,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(236,72,153,.88)';ctx.beginPath();ctx.arc(screenX-118,top+29,4.2,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(226,232,240,.88)';ctx.font='700 10px system-ui,sans-serif';ctx.fillText('เสริมกัน',screenX-108,top+20);ctx.fillText('หักล้างกัน',screenX-108,top+32);
+  ctx.restore();
+}
 function axis(ctx,cy,w){ctx.save();ctx.strokeStyle='rgba(226,232,240,.26)';ctx.setLineDash([5,7]);ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(w*.16,cy);ctx.lineTo(w*.87,cy);ctx.stroke();ctx.setLineDash([]);ctx.restore();}
 function guides(ctx,s1,s2,screenX,cy,h,p,pxPerM){
   const sampleY=cy-h*.18;ctx.save();ctx.strokeStyle='rgba(248,250,252,.42)';ctx.lineWidth=1.6;ctx.setLineDash([6,7]);
@@ -255,14 +286,14 @@ function miniBadge(ctx,w,h,p){ctx.save();const x=16,y=h-50,bw=Math.min(w-32,470)
 function arrow(ctx,x1,y1,x2,y2){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1),h=8;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-h*Math.cos(a-Math.PI/6),y2-h*Math.sin(a-Math.PI/6));ctx.lineTo(x2-h*Math.cos(a+Math.PI/6),y2-h*Math.sin(a+Math.PI/6));ctx.closePath();ctx.fill();}
 function line(ctx,x1,y1,x2,y2){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();}
 function rr(ctx,x,y,w,h,r,fill=true,stroke=false){const q=Math.min(r,Math.abs(w)/2,Math.abs(h)/2);ctx.beginPath();ctx.moveTo(x+q,y);ctx.arcTo(x+w,y,x+w,y+h,q);ctx.arcTo(x+w,y+h,x,y+h,q);ctx.arcTo(x,y+h,x,y,q);ctx.arcTo(x,y,x+w,y,q);ctx.closePath();if(fill)ctx.fill();if(stroke)ctx.stroke();}
-function row(){const p=params();return{timestamp:new Date().toISOString(),topic:'Sound Interference',model:'double_slit',slit_separation_d_m:Number(fmt(p.d,3)),frequency_Hz:Math.round(p.f),temperature_C:Math.round(p.T),speed_m_s:Number(fmt(p.v,2)),wavelength_m:Number(fmt(p.lambda,4)),d_over_lambda:Number(fmt(p.ratio,3)),phase_difference_deg:Math.round(p.phaseDeg),center_condition:p.center,amplitude_display_A:Number(fmt(p.A,2)),show_guides:p.showGuides};}
+function row(){const p=params();return{timestamp:new Date().toISOString(),topic:'Sound Interference',model:'double_slit',slit_separation_d_m:Number(fmt(p.d,3)),frequency_Hz:Math.round(p.f),temperature_C:Math.round(p.T),speed_m_s:Number(fmt(p.v,2)),wavelength_m:Number(fmt(p.lambda,4)),d_over_lambda:Number(fmt(p.ratio,3)),phase_difference_deg:Math.round(p.phaseDeg),center_condition:p.center,show_pattern:p.showPattern,amplitude_display_A:Number(fmt(p.A,2)),show_guides:p.showGuides};}
 function renderLog(){const head=document.querySelector('.localHead'),body=document.querySelector('.localBody');if(!head||!body)return;const sample=state.logs[0]||row(),keys=Object.keys(sample);head.innerHTML=keys.map(k=>`<th>${esc(k)}</th>`).join('');body.innerHTML=state.logs.map(r=>`<tr>${keys.map(k=>`<td>${esc(r[k]??'')}</td>`).join('')}</tr>`).join('');}
 function downloadCsv(){if(!state.logs.length)state.logs.push(row());const keys=Object.keys(state.logs[0]),rows=[keys.join(',')].concat(state.logs.map(r=>keys.map(k=>csv(r[k])).join(',')));const blob=new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`soundInterference_${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);renderLog();}
 function savePng(){const c=$('visualizerCanvas');if(!c)return;draw();try{c.toBlob(blob=>{if(!blob)return;const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='soundInterference.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);},'image/png');}catch(e){}}
 function csv(v){const s=String(v??'');return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;}
 function esc(v){return String(v??'').replace(/[&<>\"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));}
 document.addEventListener('DOMContentLoaded',()=>{
-  ['vizSeparation','vizFreq','vizTemp','vizPhaseDiff','vizAmp','vizTimeSpeed','vizShowGuides'].forEach(id=>{$(id)?.addEventListener('input',draw);$(id)?.addEventListener('change',draw);});
+  ['vizSeparation','vizFreq','vizTemp','vizPhaseDiff','vizAmp','vizTimeSpeed','vizShowPattern','vizShowGuides'].forEach(id=>{$(id)?.addEventListener('input',draw);$(id)?.addEventListener('change',draw);});
   $('vizPlayBtn')?.addEventListener('click',play);$('vizPauseBtn')?.addEventListener('click',pause);$('vizResetBtn')?.addEventListener('click',reset);$('vizExportBtn')?.addEventListener('click',savePng);
   document.querySelector('.localCaptureBtn')?.addEventListener('click',()=>{state.logs.push(row());renderLog();});
   document.querySelector('.localDownloadBtn')?.addEventListener('click',downloadCsv);

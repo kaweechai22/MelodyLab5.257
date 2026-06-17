@@ -1,0 +1,13 @@
+{
+  "version": "v5.190",
+  "base": "v5.189",
+  "tuning": {
+    "pattern_grid_step_px": 24,
+    "constructive_threshold": "I >= 0.90",
+    "destructive_threshold": "I <= 0.10",
+    "max_alpha_constructive": "~0.135",
+    "max_alpha_destructive": "~0.13",
+    "dot_radius_px": "3.5-3.8",
+    "goal": "reduce clutter while keeping pattern readable"
+  }
+}
