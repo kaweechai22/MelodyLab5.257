@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MelodyLab v5.226 - Standing Wave (คลื่นนิ่งของเสียง)</title>
+  <title>MelodyLab v5.228 - Standing Wave (คลื่นนิ่งของเสียง)</title>
   <meta name="description" content="MelodyLab ห้องทดลองเสียงและเก็บข้อมูล ด้วยมือถือ">
   <meta name="theme-color" content="#0f172a">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="style.css">
-  <meta name="melodylab-build-version" content="v5.226-standing-wave-particle-pressure-verified">
+  <meta name="melodylab-build-version" content="v5.228-standing-wave-merged-verified">
   <style>
     .standingWavePage .versionBadge{display:inline-flex;margin-top:10px;padding:8px 14px;border-radius:999px;background:rgba(16,185,129,.14);border:1px solid rgba(52,211,153,.35);color:#bbf7d0;font-weight:900}
-    .standingCanvas{display:block;width:100% !important;height:min(66vh,540px) !important;min-height:450px !important;max-height:540px !important;aspect-ratio:auto !important}
+    .standingCanvas{display:block;width:100% !important;height:min(66vh,560px) !important;min-height:450px !important;max-height:560px !important;aspect-ratio:auto !important}
     .standingReadout{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:12px}
     .standingReadout>div{background:rgba(15,23,42,.66);border:1px solid rgba(148,163,184,.18);border-radius:16px;padding:10px 12px}
     .standingReadout label{display:block;font-size:.74rem;color:#9fb0c7;font-weight:800}
@@ -27,14 +27,15 @@
     .timeIcon{background:linear-gradient(135deg,#6366f1,#a78bfa)}
     .standingLegend .legendLine{width:36px;height:4px;border-radius:999px;display:inline-block}
     .standingLegend .dispLine{background:#38bdf8;box-shadow:0 0 10px rgba(56,189,248,.45)}
-    .standingLegend .pressLine{background:#f59e0b;box-shadow:0 0 10px rgba(245,158,11,.45)}
+    .standingLegend .pressureBand{width:36px;height:14px;border-radius:999px;display:inline-block;background:linear-gradient(90deg,#60a5fa,#facc15,#f87171);box-shadow:0 0 10px rgba(248,113,113,.25)}
     .standingLegend .envelopeLine{background:#a78bfa;box-shadow:0 0 10px rgba(167,139,250,.45)}
     .standingLegend .redDot{width:12px;height:12px;border-radius:999px;background:#ef4444;display:inline-block}
-    .standingLegend .greenDot{width:12px;height:12px;border-radius:999px;background:#22c55e;display:inline-block}.tubeHint{color:#bae6fd;font-weight:900}
+    .standingLegend .greenDot{width:12px;height:12px;border-radius:999px;background:#22c55e;display:inline-block}
+    .standingLegend .goldDot{width:12px;height:12px;border-radius:999px;background:#facc15;display:inline-block}
     .physicsFocus{border:1px solid rgba(34,211,238,.25);background:linear-gradient(180deg,rgba(14,165,233,.08),rgba(15,23,42,.62));border-radius:18px;padding:12px;margin-top:12px}
     .physicsFocus b{color:#e0f2fe}
     @media(max-width:760px){
-      .standingCanvas{height:min(64vh,520px) !important;min-height:430px !important;max-height:520px !important}
+      .standingCanvas{height:min(64vh,530px) !important;min-height:430px !important;max-height:530px !important}
       .standingReadout{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
       .standingReadout>div:last-child{grid-column:1/-1}
       .standingReadout>div{padding:9px 10px}
@@ -54,16 +55,16 @@
   <div class="sectionHead templateHead">
     <div>
       <h2>11. Standing Wave (คลื่นนิ่งของเสียง)</h2>
-      <p class="sectionLead">คลื่นนิ่งของเสียงในท่อเกิดจากคลื่นไป–กลับซ้อนทับกัน ทำให้การกระจัดของอากาศและความดันเสียงมีบัพ/ปฏิบัพสลับตำแหน่งกัน</p>
-      <span class="versionBadge">v5.226 • อนุภาค + ความดัน verified</span>
+      <p class="sectionLead">คลื่นนิ่งของเสียงในท่อเกิดจากคลื่นไป–กลับซ้อนทับกัน ทำให้ <b>การกระจัด</b> และ <b>ความดัน</b> มีบัพ/ปฏิบัพสลับตำแหน่งกัน</p>
+      <span class="versionBadge">v5.228 • รวมอนุภาค+ความดัน verified</span>
     </div>
   </div>
 
   <div class="visualizerTemplateGrid longitudinalFocusGrid">
     <div class="card mainViz templateMainViz longitudinalMainViz">
       <div class="vizMediaFrame">
-        <div class="vizSingleModeLabel"><span>🎼</span> Standing Wave: Particles + Displacement + Pressure</div>
-        <canvas id="standingCanvas" class="standingCanvas" width="1200" height="520" aria-label="ภาพจำลองคลื่นนิ่งของเสียง"></canvas>
+        <div class="vizSingleModeLabel"><span>🎼</span> Standing Wave: Particle Density + Pressure + Displacement</div>
+        <canvas id="standingCanvas" class="standingCanvas" width="1200" height="540" aria-label="ภาพจำลองคลื่นนิ่งของเสียง"></canvas>
         <div class="vizPlayerBar embeddedPlayerBar" aria-label="ปุ่มควบคุมภาพจำลอง">
           <div class="playerCluster playerCenter playerCenterOnly">
             <button id="standingPlayBtn" class="playerBtn playerPrimary playerPlay" title="เล่น" aria-label="เล่น"><span class="playerGlyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 6.5v11l9-5.5-9-5.5z"/></svg></span></button>
@@ -82,7 +83,7 @@
       </div>
 
       <div class="physicsFocus">
-        <b>จุดเน้น:</b> อนุภาคอากาศสั่นไป–กลับรอบตำแหน่งเดิม ส่วนไมโครโฟนวัด <b>ความดันเสียง</b> ซึ่งดังสุดที่ปฏิบัพของความดัน
+        <b>จุดเน้น:</b> จุดที่อนุภาคอากาศ <b>อัดแน่น/เบาบางมาก</b> คือบริเวณที่ <b>ความดันเสียงเปลี่ยนมาก</b> และไมโครโฟนรับเสียงดังสุดที่ <b>ปฏิบัพ (Antinode) ของความดัน</b>
       </div>
 
       <details class="explainDetails" open>
@@ -90,20 +91,21 @@
         <div class="detailsBody">
           <div class="templateUnderCanvas explainGrid">
             <div class="templateInsightCard">
-              <div class="insightTitle">หลักฟิสิกส์สำคัญ</div>
+              <div class="insightTitle">จุดสำคัญ</div>
               <ul>
-                <li>อนุภาคอากาศสั่นซ้าย–ขวา ไม่ได้ไหลไปทางเดียว</li>
-                <li>จุดเบียดกัน/เบาบาง แทนความดันเสียงสูง–ต่ำ</li>
-                <li>การกระจัดกับความดันมีบัพ (Node) / ปฏิบัพ (Antinode) สลับกัน</li>
-                <li>เสียงดังสุดที่ปฏิบัพของความดัน (Pressure Antinode)</li>
+                <li>อนุภาคอากาศสั่นไป–กลับรอบตำแหน่งเดิม ไม่ได้ไหลไปตลอดท่อ</li>
+                <li>อนุภาคถี่ = อัดแน่น = ความดันสูง, อนุภาคห่าง = เบาบาง = ความดันต่ำ</li>
+                <li>บัพ/ปฏิบัพของการกระจัด สลับตำแหน่งกับบัพ/ปฏิบัพของความดัน</li>
+                <li>ปลายเปิด: การกระจัดเป็นปฏิบัพ แต่ความดันเป็นบัพ</li>
               </ul>
             </div>
             <div class="templateLegendCard standingLegend">
+              <div class="legendRow"><span class="pressureBand"></span><span>แถบสี + อนุภาคในท่อ = การอัดแน่น/เบาบาง และความดันเสียง</span></div>
               <div class="legendRow"><span class="legendLine dispLine"></span><span>การกระจัดของอากาศ</span></div>
-              <div class="legendRow"><span class="legendLine pressLine"></span><span>ความดันเสียง</span></div>
               <div class="legendRow"><span class="legendLine envelopeLine"></span><span>ขอบเขตแอมพลิจูดสูงสุด</span></div>
               <div class="legendRow"><span class="redDot"></span><span>บัพ (Node)</span></div>
               <div class="legendRow"><span class="greenDot"></span><span>ปฏิบัพ (Antinode)</span></div>
+              <div class="legendRow"><span class="goldDot"></span><span>ตำแหน่งไมค์รับเสียงดัง</span></div>
             </div>
           </div>
         </div>
@@ -111,7 +113,7 @@
     </div>
 
     <div class="card controlViz templateControlViz longitudinalControlViz neonControlViz">
-      <div class="panelTitleStack"><h3>Parameters (ตัวแปรควบคุม)</h3><p class="panelSubtext">ปรับท่อและโหมดเพื่อดูอนุภาค การกระจัด และความดัน</p></div>
+      <div class="panelTitleStack"><h3>Parameters (ตัวแปรควบคุม)</h3><p class="panelSubtext">ปรับรูปแบบท่อเพื่อดูความสัมพันธ์ของอนุภาค การกระจัด และความดัน</p></div>
 
       <div class="field richField neonParamRow">
         <div class="paramIcon nodeIcon">ปลาย</div>
@@ -190,7 +192,7 @@ function params(){
   }else if(boundary==='fixed'){
     lambda=2*L/mode; freq=mode*v/(2*L); boundaryName='เส้นเชือกตรึง–ตรึง'; modeText=`n = ${mode}`; loudText='ไม่ใช้ไมค์วัดความดัน'; formula='λ = 2L/n';
   }else{
-    lambda=2*L/mode; freq=mode*v/(2*L); boundaryName='ท่อเปิด–เปิด'; modeText=`n = ${mode}`; loudText='กลางช่วงระหว่างปลายเปิด'; formula='λ = 2L/n';
+    lambda=2*L/mode; freq=mode*v/(2*L); boundaryName='ท่อเปิด–เปิด'; modeText=`n = ${mode}`; loudText='ระหว่างปลายเปิด'; formula='λ = 2L/n';
   }
   return {boundary,mode,h,L,v,A,timeSpeed,lambda,freq,boundaryName,modeText,loudText,formula};
 }
@@ -198,7 +200,7 @@ function canvasScale(canvas){
   const dpr=Math.max(1,window.devicePixelRatio||1);
   const rect=canvas.getBoundingClientRect();
   const cssW=Math.max(320,Math.round(rect.width||720));
-  const cssH=Math.max(330,Math.round(rect.height||420));
+  const cssH=Math.max(360,Math.round(rect.height||450));
   const targetW=Math.round(cssW*dpr), targetH=Math.round(cssH*dpr);
   if(canvas.width!==targetW||canvas.height!==targetH){canvas.width=targetW;canvas.height=targetH;}
   const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -254,20 +256,12 @@ function makePts(fn,left,right,mid,scale,step=1){
   if(!pts.length||pts[pts.length-1][0]<right) pts.push([right,mid-fn(1)*scale]);
   return pts;
 }
-function dot(ctx,x,y,r,color,label){
+function dot(ctx,x,y,r,color,label,align='top'){
   ctx.save();ctx.fillStyle=color;ctx.strokeStyle='rgba(255,255,255,.88)';ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.stroke();
-  if(label){ctx.fillStyle='rgba(226,232,240,.93)';ctx.font='800 9px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText(label,x,y-10);}
+  if(label){ctx.fillStyle='rgba(226,232,240,.93)';ctx.font='800 9px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText(label,x,y+(align==='bottom'?14:-10));}
   ctx.restore();
 }
-function drawBoundary(ctx,left,right,y,p){
-  ctx.save();ctx.strokeStyle='rgba(226,232,240,.34)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();
-  const H=44;
-  const open=x=>{ctx.strokeStyle='rgba(34,211,238,.72)';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x,y-H/2);ctx.lineTo(x,y+H/2);ctx.stroke();ctx.fillStyle='rgba(34,211,238,.16)';ctx.beginPath();ctx.arc(x,y,13,-Math.PI/2,Math.PI/2);ctx.stroke();};
-  const closed=x=>{ctx.strokeStyle='rgba(248,113,113,.80)';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,y-H/2);ctx.lineTo(x,y+H/2);ctx.stroke();ctx.lineWidth=1;for(let yy=y-H/2;yy<=y+H/2;yy+=9){ctx.beginPath();ctx.moveTo(x-11,yy+9);ctx.lineTo(x,yy);ctx.stroke();}};
-  if(p.boundary==='closed'){closed(left);open(right);} else if(p.boundary==='open'){open(left);open(right);} else {closed(left);closed(right);}
-  ctx.restore();
-}
-function laneLabel(ctx,x,y,title,sub,color,w=260){
+function laneLabel(ctx,x,y,title,sub,color,w=290){
   ctx.save();ctx.fillStyle='rgba(15,23,42,.72)';ctx.strokeStyle='rgba(148,163,184,.18)';rr(ctx,x,y,Math.min(w,ctx.canvas.width),40,13,true,true);
   ctx.fillStyle=color;ctx.font='900 12px system-ui,sans-serif';ctx.fillText(title,x+12,y+16);
   ctx.fillStyle='rgba(203,213,225,.90)';ctx.font='800 10px system-ui,sans-serif';ctx.fillText(sub,x+12,y+31);
@@ -288,7 +282,7 @@ function updateLabels(){
   $('readLoud').textContent=p.loudText;
 }
 function drawTube(ctx,left,right,y,amp,p,label){
-  const tubeTop=y-amp-26, tubeH=2*amp+52, tubeW=right-left;
+  const tubeTop=y-amp-28, tubeH=2*amp+56, tubeW=right-left;
   ctx.save();
   const grad=ctx.createLinearGradient(left,tubeTop,right,tubeTop+tubeH);
   grad.addColorStop(0,'rgba(14,165,233,.10)');
@@ -299,147 +293,128 @@ function drawTube(ctx,left,right,y,amp,p,label){
   ctx.fillStyle='rgba(226,232,240,.16)';
   ctx.beginPath();ctx.ellipse(left+10,y,tubeH*.18,tubeH*.42,0,0,Math.PI*2);ctx.fill();
   ctx.beginPath();ctx.ellipse(right-10,y,tubeH*.18,tubeH*.42,0,0,Math.PI*2);ctx.fill();
-  const openEnd=(x,sideName)=>{
+  const openEnd=(x)=>{
     ctx.strokeStyle='rgba(34,211,238,.82)';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(x,y,tubeH*.18,tubeH*.43,0,0,Math.PI*2);ctx.stroke();
-    ctx.fillStyle='rgba(186,230,253,.94)';ctx.font='900 10px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('ปลายเปิด',x,y+tubeH*.52);
+    ctx.fillStyle='rgba(186,230,253,.94)';ctx.font='900 10px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('ปลายเปิด',x,y+tubeH*.54);
   };
   const closedEnd=(x)=>{
     ctx.strokeStyle='rgba(248,113,113,.86)';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,y-tubeH*.42);ctx.lineTo(x,y+tubeH*.42);ctx.stroke();
     ctx.lineWidth=1.2;for(let yy=y-tubeH*.40;yy<y+tubeH*.40;yy+=9){ctx.beginPath();ctx.moveTo(x-12,yy+10);ctx.lineTo(x,yy);ctx.stroke();}
-    ctx.fillStyle='rgba(254,202,202,.95)';ctx.font='900 10px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('ปลายปิด',x,y+tubeH*.52);
+    ctx.fillStyle='rgba(254,202,202,.95)';ctx.font='900 10px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('ปลายปิด',x,y+tubeH*.54);
   };
   if(p.boundary==='closed'){closedEnd(left);openEnd(right);}
   else if(p.boundary==='open'){openEnd(left);openEnd(right);}
   else{closedEnd(left);closedEnd(right);}
-  ctx.fillStyle='rgba(226,232,240,.78)';ctx.font='900 10px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText(label,left+16,tubeTop+18);
+  ctx.fillStyle='rgba(226,232,240,.80)';ctx.font='900 10px system-ui,sans-serif';ctx.textAlign='left';ctx.fillText(label,left+16,tubeTop+18);
   ctx.restore();
+  return {tubeTop,tubeH};
 }
-function drawPressureBands(ctx,left,right,y,amp,p,pressTime){
-  if(p.boundary==='fixed') return;
-  const tubeTop=y-amp-26, tubeH=2*amp+52, W=right-left;
-  ctx.save();
-  for(let i=0;i<=W;i+=5){
-    const u=i/W;
-    const val=pressureShape(p,u)*pressTime;
-    const a=Math.min(.48,Math.abs(val)*.40);
-    if(a<.015) continue;
-    ctx.fillStyle=val>=0?`rgba(248,113,113,${a})`:`rgba(96,165,250,${a})`;
-    ctx.fillRect(left+i,tubeTop+4,5,tubeH-8);
+function drawParticlePressureLayer(ctx,left,right,y,amp,p,dispTime,pressTime){
+  const W=right-left;
+  const geom=drawTube(ctx,left,right,y,amp,p,p.boundary==='fixed'?'1  เส้นเชือกเปรียบเทียบ':'1  อนุภาคอากาศ + ความดันเสียงในท่อ');
+  const {tubeTop,tubeH}=geom;
+  if(p.boundary==='fixed'){
+    ctx.save();
+    ctx.fillStyle='rgba(245,158,11,.14)';ctx.strokeStyle='rgba(245,158,11,.26)';rr(ctx,left+18,tubeTop+12,right-left-36,tubeH-24,14,true,true);
+    ctx.fillStyle='rgba(254,243,199,.96)';ctx.font='900 12px system-ui,sans-serif';ctx.fillText('กรณีเส้นเชือกไม่มีอนุภาคอากาศและความดันเสียง',left+32,y-4);
+    ctx.fillStyle='rgba(203,213,225,.88)';ctx.font='800 10px system-ui,sans-serif';ctx.fillText('ใช้โหมดนี้เพื่อเปรียบเทียบบัพ/ปฏิบัพของการกระจัดเท่านั้น',left+32,y+14);
+    ctx.restore();
+    return;
   }
-  ctx.fillStyle='rgba(15,23,42,.62)';ctx.strokeStyle='rgba(148,163,184,.14)';
-  rr(ctx,right-154,tubeTop+8,142,34,12,true,true);
-  ctx.fillStyle='rgba(226,232,240,.92)';ctx.font='800 10px system-ui,sans-serif';ctx.fillText('สีเข้ม = อัด/ขยายมาก',right-144,tubeTop+22);
-  ctx.fillStyle='rgba(203,213,225,.84)';ctx.fillText('ไมค์รับเสียงดัง',right-144,tubeTop+36);
-  ctx.restore();
-}
-function drawParticleLayer(ctx,left,right,y,amp,p,dispTime,pressTime){
-  const W=right-left, tubeTop=y-amp-26, tubeH=2*amp+52;
-  drawTube(ctx,left,right,y,amp,p,'1  อนุภาคอากาศในท่อ');
-  ctx.save();
-  const rows=5, count=74;
-  for(let i=0;i<count;i++){
-    const u=(i+0.5)/count;
-    const d=displacementShape(p,u);
-    const pr=p.boundary==='fixed'?0:pressureShape(p,u)*pressTime;
-    const shifted=clamp(u+0.030*d*dispTime,0.015,0.985);
-    const x=left+shifted*W;
-    for(let r=0;r<rows;r++){
-      const jitter=((i*19+r*37)%100)/100-.5;
-      const yy=y+(r-(rows-1)/2)*8+jitter*3;
-      const a=.34+.46*Math.abs(pr);
-      const rad=1.35+1.2*Math.abs(pr);
-      ctx.fillStyle=p.boundary==='fixed'?`rgba(125,211,252,${a})`:(pr>=0?`rgba(250,204,21,${a})`:`rgba(96,165,250,${a})`);
-      ctx.beginPath();ctx.arc(x,yy,rad,0,Math.PI*2);ctx.fill();
-    }
-  }
-  ctx.strokeStyle='rgba(226,232,240,.78)';ctx.lineWidth=1.7;ctx.fillStyle='rgba(226,232,240,.78)';
-  for(let k=1;k<5;k++){
-    const x=left+W*k/5, yy=y-amp-12;
-    ctx.beginPath();ctx.moveTo(x-10,yy);ctx.lineTo(x+10,yy);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(x-13,yy);ctx.lineTo(x-7,yy-4);ctx.lineTo(x-7,yy+4);ctx.closePath();ctx.fill();
-    ctx.beginPath();ctx.moveTo(x+13,yy);ctx.lineTo(x+7,yy-4);ctx.lineTo(x+7,yy+4);ctx.closePath();ctx.fill();
-  }
-  ctx.fillStyle='rgba(15,23,42,.70)';ctx.strokeStyle='rgba(148,163,184,.16)';
-  rr(ctx,left+12,tubeTop+tubeH-30,Math.min(260,W-24),22,10,true,true);
-  ctx.fillStyle='rgba(226,232,240,.88)';ctx.font='800 10px system-ui,sans-serif';
-  ctx.fillText('จุดถี่ = อัดแน่น, จุดห่าง = เบาบาง',left+24,tubeTop+tubeH-14);
-  ctx.restore();
-}
-function drawPressureParticleLayer(ctx,left,right,y,amp,p,pressTime){
-  if(p.boundary==='fixed') return;
-  const tubeTop=y-amp-26, tubeH=2*amp+52, W=right-left;
+
   ctx.save();
   for(let i=0;i<=W;i+=4){
     const u=i/W, val=pressureShape(p,u)*pressTime;
-    const a=Math.min(.52,Math.abs(val)*.42);
-    if(a>.012){
-      ctx.fillStyle=val>=0?`rgba(248,113,113,${a})`:`rgba(96,165,250,${a})`;
-      ctx.fillRect(left+i,tubeTop+4,4,tubeH-8);
-    }
+    const a=Math.min(.48,Math.abs(val)*.40);
+    if(a<.01) continue;
+    ctx.fillStyle=val>=0?`rgba(248,113,113,${a})`:`rgba(96,165,250,${a})`;
+    ctx.fillRect(left+i,tubeTop+4,4,tubeH-8);
   }
-  const rows=4, count=68;
+
+  const rows=5, count=82;
   for(let i=0;i<count;i++){
-    const u=(i+0.5)/count, val=pressureShape(p,u)*pressTime;
-    const density=.55+.45*Math.abs(val);
+    const u=(i+0.5)/count;
+    const d=displacementShape(p,u);
+    const pr=pressureShape(p,u)*pressTime;
+    const shifted=clamp(u+0.028*d*dispTime,0.018,0.982);
+    const x=left+shifted*W;
+    const density=0.55+0.45*Math.abs(pr);
     for(let r=0;r<rows;r++){
-      if(((i*7+r*11)%100)/100>density) continue;
-      const x=left+u*W+(((i*13+r*29)%100)/100-.5)*4;
-      const yy=y+(r-(rows-1)/2)*9+(((i*31+r*17)%100)/100-.5)*3;
-      ctx.fillStyle=val>=0?'rgba(250,204,21,.72)':'rgba(96,165,250,.62)';
-      ctx.beginPath();ctx.arc(x,yy,1.6+1.1*Math.abs(val),0,Math.PI*2);ctx.fill();
+      if(((i*13+r*17)%100)/100>density) continue;
+      const jitter=((i*19+r*31)%100)/100-.5;
+      const yy=y+(r-(rows-1)/2)*8+jitter*3;
+      const alpha=.35+.44*Math.abs(pr);
+      const rad=1.35+1.2*Math.abs(pr);
+      ctx.fillStyle=pr>=0?`rgba(250,204,21,${alpha})`:`rgba(96,165,250,${alpha})`;
+      ctx.beginPath();ctx.arc(x,yy,rad,0,Math.PI*2);ctx.fill();
     }
   }
-  ctx.fillStyle='rgba(15,23,42,.66)';ctx.strokeStyle='rgba(148,163,184,.14)';
-  rr(ctx,right-178,tubeTop+7,166,42,12,true,true);
-  ctx.fillStyle='rgba(254,240,138,.96)';ctx.font='900 10px system-ui,sans-serif';ctx.fillText('เหลือง/แดง = อัดแน่น',right-166,tubeTop+22);
-  ctx.fillStyle='rgba(191,219,254,.96)';ctx.fillText('น้ำเงิน = เบาบาง',right-166,tubeTop+38);
+
+  pressureNodes(p).forEach((u,i)=>{
+    const x=left+u*W;
+    dot(ctx,x,y,4.7,'#ef4444',i===0?'บัพ':'','top');
+  });
+  pressureAntinodes(p).forEach((u,i)=>{
+    const x=left+u*W;
+    dot(ctx,x,y,5.2,'#22c55e',i===0?'ปฏิบัพ':'','bottom');
+    if(i<5){
+      ctx.save();ctx.strokeStyle='rgba(250,204,21,.34)';ctx.setLineDash([4,5]);ctx.beginPath();ctx.moveTo(x,tubeTop-18);ctx.lineTo(x,tubeTop+tubeH+18);ctx.stroke();
+      ctx.fillStyle='rgba(254,240,138,.98)';ctx.font='900 9px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('ไมค์ดัง',x,tubeTop-22);
+      ctx.beginPath();ctx.fillStyle='rgba(250,204,21,.96)';ctx.arc(x,tubeTop+tubeH+10,3.6,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    }
+  });
+
+  const compressX=left+W*0.21, rareX=left+W*0.78;
+  ctx.fillStyle='rgba(15,23,42,.70)';ctx.strokeStyle='rgba(148,163,184,.16)';
+  rr(ctx,left+12,tubeTop+tubeH-30,Math.min(290,W-24),22,10,true,true);
+  ctx.fillStyle='rgba(226,232,240,.92)';ctx.font='800 10px system-ui,sans-serif';ctx.fillText('จุดถี่ = อัดแน่น/ความดันสูง, จุดห่าง = เบาบาง/ความดันต่ำ',left+24,tubeTop+tubeH-14);
+
+  ctx.fillStyle='rgba(15,23,42,.68)';ctx.strokeStyle='rgba(148,163,184,.16)';rr(ctx,right-188,tubeTop+7,176,44,12,true,true);
+  ctx.fillStyle='rgba(254,240,138,.96)';ctx.font='900 10px system-ui,sans-serif';ctx.fillText('เหลือง–แดง = อัดแน่น',right-176,tubeTop+22);
+  ctx.fillStyle='rgba(191,219,254,.98)';ctx.fillText('น้ำเงิน = เบาบาง',right-176,tubeTop+38);
+
+  ctx.fillStyle='rgba(254,240,138,.94)';ctx.font='900 9px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('อัดแน่น',compressX,tubeTop+tubeH+12);
+  ctx.fillStyle='rgba(191,219,254,.94)';ctx.fillText('เบาบาง',rareX,tubeTop+tubeH+12);
+  ctx.restore();
+}
+function drawDisplacementLayer(ctx,left,right,y,amp,p,dispTime){
+  const W=right-left;
+  drawTube(ctx,left,right,y,amp,p,'2  การกระจัดของอากาศ');
+  const D=u=>displacementShape(p,u);
+  drawLine(ctx,makePts(u=>Math.abs(D(u)),left,right,y,amp,1),'#a78bfa',1.4,.78,[7,6]);
+  drawLine(ctx,makePts(u=>-Math.abs(D(u)),left,right,y,amp,1),'#a78bfa',1.4,.78,[7,6]);
+  drawLine(ctx,makePts(u=>D(u)*dispTime,left,right,y,amp,1),'#38bdf8',3.0,1);
+  displacementNodes(p).forEach((u,i)=>dot(ctx,left+u*W,y,4.6,'#ef4444',i===0?'บัพ':'','top'));
+  displacementAntinodes(p).forEach((u,i)=>{
+    const x=left+u*W, yy=y-D(u)*dispTime*amp;
+    dot(ctx,x,yy,5.0,'#22c55e',i===0?'ปฏิบัพ':'','top');
+  });
+
+  ctx.save();
+  ctx.fillStyle='rgba(15,23,42,.66)';ctx.strokeStyle='rgba(148,163,184,.14)';rr(ctx,right-204,y-amp-54,192,42,12,true,true);
+  ctx.fillStyle='rgba(186,230,253,.96)';ctx.font='900 10px system-ui,sans-serif';ctx.fillText('ปลายเปิด → ปฏิบัพการกระจัด',right-192,y-amp-39);
+  ctx.fillStyle='rgba(226,232,240,.88)';ctx.fillText('สลับตำแหน่งกับความดันเสียง',right-192,y-amp-23);
   ctx.restore();
 }
 function draw(){
   const canvas=$('standingCanvas');if(!canvas)return;
   const {w,h}=canvasScale(canvas),ctx=canvas.getContext('2d'),p=params();updateLabels();background(ctx,w,h);
   const left=Math.max(56,Math.round(w*0.12)),right=w-Math.max(38,Math.round(w*0.07)),plotW=right-left;
-  const yPart=Math.round(h*0.22), yD=Math.round(h*0.50), yP=Math.round(h*0.76);
-  const amp=Math.min(34*p.A,h*0.075);
+  const yTube=Math.round(h*0.29), yD=Math.round(h*0.68);
+  const amp=Math.min(38*p.A,h*0.080);
   const theta=2*Math.PI*state.time;
   const dispTime=Math.cos(theta), pressTime=Math.sin(theta);
 
-  laneLabel(ctx,16,12,'1 อนุภาคอากาศ','สั่นซ้าย–ขวารอบตำแหน่งเดิม','#a78bfa',260);
-  drawParticleLayer(ctx,left,right,yPart,amp,p,dispTime,pressTime);
+  laneLabel(ctx,16,14,'1 อนุภาคอากาศ + ความดันเสียง','ดูความถี่ของอนุภาคและระดับความดัน','#f59e0b',330);
+  drawParticlePressureLayer(ctx,left,right,yTube,amp,p,dispTime,pressTime);
 
-  laneLabel(ctx,16,yD-amp-78,'2 การกระจัดของอากาศ','เส้นฟ้า: อนุภาคสั่นมาก/น้อย','#38bdf8',300);
-  drawTube(ctx,left,right,yD,amp,p,'2  การกระจัดของอากาศ');
-  const D=u=>displacementShape(p,u);
-  drawLine(ctx,makePts(u=>Math.abs(D(u)),left,right,yD,amp,1),'#a78bfa',1.4,.78,[7,6]);
-  drawLine(ctx,makePts(u=>-Math.abs(D(u)),left,right,yD,amp,1),'#a78bfa',1.4,.78,[7,6]);
-  drawLine(ctx,makePts(u=>D(u)*dispTime,left,right,yD,amp,1),'#38bdf8',3.0,1);
-  displacementNodes(p).forEach((u,i)=>dot(ctx,left+u*plotW,yD,4.6,'#ef4444',i===0?'บัพ':''));
-  displacementAntinodes(p).forEach((u,i)=>dot(ctx,left+u*plotW,yD-D(u)*dispTime*amp,5.0,'#22c55e',i===0?'ปฏิบัพ':''));
-
-  laneLabel(ctx,16,yP-amp-78,'3 ความดันเสียง','จุดถี่/สีเข้ม = อัด–ขยายมาก','#f59e0b',300);
-  drawTube(ctx,left,right,yP,amp,p,p.boundary==='fixed'?'เส้นเชือกเปรียบเทียบ':'3  ความดันเสียง / การอัด–ขยาย');
-  if(p.boundary!=='fixed'){
-    drawPressureParticleLayer(ctx,left,right,yP,amp,p,pressTime);
-    const P=u=>pressureShape(p,u);
-    drawLine(ctx,makePts(u=>P(u)*pressTime,left,right,yP,amp*.75,1),'#f59e0b',2.4,.95);
-    pressureNodes(p).forEach((u,i)=>dot(ctx,left+u*plotW,yP,4.6,'#ef4444',i===0?'บัพ':''));
-    pressureAntinodes(p).forEach((u,i)=>{
-      const x=left+u*plotW, yy=yP-P(u)*pressTime*amp*.75;
-      dot(ctx,x,yy,5.0,'#22c55e',i===0?'ปฏิบัพ':'');
-      if(i<4){
-        ctx.save();ctx.strokeStyle='rgba(34,197,94,.26)';ctx.setLineDash([4,5]);ctx.beginPath();ctx.moveTo(x,yP-amp-30);ctx.lineTo(x,yP+amp+30);ctx.stroke();
-        ctx.fillStyle='rgba(187,247,208,.94)';ctx.font='900 9px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('ดัง',x,yP-amp-35);ctx.restore();
-      }
-    });
-  }else{
-    ctx.save();ctx.fillStyle='rgba(245,158,11,.14)';ctx.strokeStyle='rgba(245,158,11,.30)';rr(ctx,left+18,yP-24,right-left-36,48,14,true,true);
-    ctx.fillStyle='rgba(254,243,199,.95)';ctx.font='900 12px system-ui,sans-serif';ctx.fillText('เส้นเชือกไม่มีความดันเสียง',left+32,yP-4);
-    ctx.fillStyle='rgba(203,213,225,.86)';ctx.font='800 10px system-ui,sans-serif';ctx.fillText('ใช้เปรียบเทียบกับเสียงในท่อ',left+32,yP+15);ctx.restore();
-  }
+  laneLabel(ctx,16,yD-amp-80,'2 การกระจัดของอากาศ','เส้นฟ้าแสดงตำแหน่งอนุภาคที่สั่นมาก/น้อย','#38bdf8',320);
+  drawDisplacementLayer(ctx,left,right,yD,amp,p,dispTime);
 
   ctx.save();
   ctx.fillStyle='rgba(15,23,42,.80)';ctx.strokeStyle='rgba(148,163,184,.18)';
-  rr(ctx,16,h-66,Math.min(w-32,366),52,15,true,true);
+  rr(ctx,16,h-66,Math.min(w-32,396),52,15,true,true);
   ctx.fillStyle='rgba(226,232,240,.96)';ctx.font='900 12px system-ui,sans-serif';ctx.fillText(`${p.boundaryName} • ${p.modeText}`,32,h-44);
   ctx.fillStyle='rgba(148,163,184,.96)';ctx.font='800 10px system-ui,sans-serif';ctx.fillText(`${p.formula}, λ = ${fmt(p.lambda,2)} m, f = ${fmt(p.freq,1)} Hz`,32,h-25);
   ctx.restore();
